@@ -1,0 +1,137 @@
+{%extends 'base.html'%}
+{%block header%} Hello {{user.last_name|capitalize}}, {{user.first_name|capitalize}}!{%endblock%}
+{%block main%}
+<div>
+    <div>
+        <h2>
+            Recieved {{recieved | length}}
+        </h2>
+        {%if recieved%}
+            {%for i in recieved%}
+                <h3>
+                    {{i.sender.first_name}}
+                </h3>
+                {{i.content}}
+                <br>
+                {%if i.created_at != i.updated_at%}
+                    {{i.updated_at}}
+                    <a href="/message/{{i.id}}/delete">
+                        ❌
+                    </a>
+                {%else%}
+                    {{i.created_at}}
+                    <a href="/message/{{i.id}}/delete">
+                        ❌
+                    </a>
+                    <br>
+                {%endif%}
+            {%endfor%}
+        {%else%}
+            Send 💜 to get 💜!
+        {%endif%}
+    </div>
+    <div>
+        <h2>
+            Change Information
+        </h2>
+        <form action="/user/update/process" method="POST">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for i in messages %}
+                        {{i}}
+                        <br>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <!-- id -->
+            <input type="hidden" name="id" value="{{user.id}}">
+            <!-- first name -->
+            <label for="first_name">
+                First Name:
+            </label>
+            <input type="text" name="first_name" value="{{user.first_name}}">
+            <!-- last name -->
+            <label for="last_name">
+                Last Name
+            </label>
+            <input type="text" name="last_name" value="{{user.last_name}}">
+            <!-- email -->
+            <label for="email">
+                Email:
+            </label>
+            <input type="text" name="email" value="{{user.email}}">
+            <!-- email -->
+            <label for="email">
+                Confirm Email:
+            </label>
+            <input type="text" name="confirm_email" value="{{user.email}}">
+            <!-- password -->
+            <label for="">
+                Password*:
+            </label>
+            <input type="password" name="password">
+            <!-- password -->
+            <label for="">
+                New Password:
+            </label>
+            <input type="password" name="new_pass">
+            <!-- confirm Password -->
+            <label for="">
+                Confirm Password:
+            </label>
+            <input type="password" name="new_pass_check">
+            <!-- submit -->
+            <input type="submit" value="Change Me..">
+        </form>
+    </div>
+</div>
+<div>
+    <div>
+        <h2>
+            Send
+        </h2>
+        {%for i in users%}
+        {%if i.id != user.id%}
+        <h3>
+            {{i.first_name}}
+        </h3>
+        <form action="/message/create/process" method="POST">
+            <textarea name="content" rows="5" cols="20"></textarea>
+            <input type="hidden" name="sender" value="{{user.id}}">
+            <input type="hidden" name="reciever" value="{{i.id}}">
+            <input type="submit" value="send">
+        </form>
+        {%endif%}
+        {%endfor%}
+    </div>
+    <div>
+        <h2>
+            Sent {{sent | length}}
+        </h2>
+        {%if sent%}
+            {%for i in sent%}
+                <h3>
+                    {{i.reciever.first_name}}
+                </h3>
+                <a href="/message/{{i.id}}/change">
+                    {{i.content}}
+                </a>
+                <br>
+                {%if i.created_at != i.updated_at%}
+                    {{i.updated_at}}
+                    <a href="/message/{{i.id}}/delete">
+                        ❌
+                    </a>
+                {%else%}
+                    {{i.created_at}} 
+                    <a href="/message/{{i.id}}/delete">
+                        ❌
+                    </a>
+                {%endif%}
+            {%endfor%}
+        {%else%}
+            Lets Get Social!
+        {%endif%}
+    </div>
+</div>
+{%endblock%}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{%block header%} Hello {{message.sender.last_name|capitalize}}, {{message.sender.id}} {{message.sender.first_name|capitalize}}! {%endblock%}
+{%block main%}
+<div>
+    <h2>
+        Edit Message
+    </h2>
+    To: {{message.reciever.first_name}} {{message.reciever.id}}
+    <form action="/message/change/process" method="POST">
+        <textarea name="content" rows="5" cols="20">{{message.content}}</textarea>
+        <input type="hidden" name="sender" value="{{message.sender.id}}">
+        <input type="hidden" name="reciever" value="{{message.reciever.id}}">
+        <input type="hidden" name="id" value="{{message.id}}">
+        <input type="submit" value="send">
+    </form>
+</div>
+{%endblock%}
+
