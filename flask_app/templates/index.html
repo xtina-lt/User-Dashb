@@ -8,4 +8,16 @@
     </br>
     <img id="logo" src="{{ url_for('static', filename='logo-black.png') }}">
 </div>
+
+{%if test%}
+<div>
+    Success is not final;
+    <br>
+        Failure is not fatal;
+    <br>
+        <b>It is the courage to continue that counts.</b>
+    <br>
+    <img id="logo" src="{{ url_for('static', filename='logo-black.png') }}">
+</div>
+{%endif%}
 {%endblock%}

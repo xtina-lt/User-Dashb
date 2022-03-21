@@ -80,6 +80,12 @@ def delete(id):
     return redirect("/users/read")
 
 
+'''TEST'''
+@app.route("/test")
+def test():
+    return render_template('index.html', test = 'check check')
+
+
 '''CATCHALL'''
 @app.route("/", defaults={"path":""})
 @app.route("/<path:path>")
